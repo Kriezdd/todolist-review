@@ -1,0 +1,37 @@
+@import '../../utils/colors.scss';
+
+// todo: finish styling (inputs, textarea, button)
+
+.NewTaskForm {
+  width: 600px;
+  max-width: 660px;
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+
+  background: $bg-color;
+  border-radius: 10px;
+  border: none;
+
+  button {
+    background: $bg-button-color;
+    border: 1px solid $borders-color;
+    border-radius: 5px;
+  }
+
+  input, textarea {
+    position: relative;
+    background: transparent;
+    border: none;
+    resize: none;
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 1px;
+      width: 200px;
+      background: #000; // Change the color as needed
+    }
+  }
+}
