@@ -23,7 +23,11 @@ const NewTaskForm = ({setTasks}: FormProps) => {
             tags: Array.from(tags),
             status: 'inProgress',
         }
-        setTasks((prevTasks) => [...prevTasks, newTask]);
+        setTasks((prevTasks) => {
+            const newTasks = [...prevTasks, newTask];
+            localStorage.setItem('tasks', JSON.stringify(newTasks));
+            return newTasks;
+        });
         setName('');
         setDescription('');
         setTags(new Set<string>());
@@ -40,41 +44,44 @@ const NewTaskForm = ({setTasks}: FormProps) => {
 
     return (
         <form className="NewTaskForm" onSubmit={handleSubmit}>
-            <input
-                type="text"
-                value={name}
-                onChange={e => setName(e.target.value)}
-                placeholder="Name"
-                required
-            />
-            <textarea
-                value={description}
-                onChange={e => setDescription(e.target.value)}
-                placeholder="Description"
-            />
-            <input
-                type="text"
-                value={newTag}
-                onChange={(e) => setNewTag(e.target.value)}
-                onKeyDown={handleTagInputKeyDown}
-            />
-            <div className="Tags">
-                {Array.from(tags).map(tag =>
-                    <div>{tag}</div>
-                )}
+            <div className="InputGrid">
+                <input
+                    className="Input-Name"
+                    type="text"
+                    value={name}
+                    onChange={e => setName(e.target.value)}
+                    placeholder="task name"
+                    required
+                />
+                <textarea
+                    className="Input-Description"
+                    value={description}
+                    onChange={e => setDescription(e.target.value)}
+                    placeholder="description..."
+                />
+                <input
+                    className="Input-Tag"
+                    type="text"
+                    value={newTag}
+                    onChange={(e) => setNewTag(e.target.value)}
+                    onKeyDown={handleTagInputKeyDown}
+                    placeholder="add tags (ENTER)"
+                />
+                <div className="Tags">
+                    {Array.from(tags).map(tag =>
+                        <div>{tag}</div>
+                    )}
+                </div>
+                <p>deadline:</p>
+                    <input
+                        className="Input-Deadline"
+                        type="datetime-local"
+                        value={deadline}
+                        onChange={e => setDeadline(e.target.value)}
+                        required
+                    />
             </div>
-            <input
-                type="date"
-                value={deadline}
-                onChange={e => setDeadline(e.target.value)}
-                required
-            />
-            <input
-                type="time"
-                value={deadline}
-                onChange={e => setDeadline(e.target.value)}
-            />
-            <button type="submit">Add Task</button>
+            <button type="submit">add</button>
         </form>
     );
 };
