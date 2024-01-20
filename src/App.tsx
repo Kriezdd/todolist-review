@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import NewTaskForm from "./components/NewTaskForm/NewTaskForm";
-import TaskList from "./components/Tasks/TaskList";
+import TaskList from "./components/Tasks/TaskList/TaskList";
 import './App.scss';
 
 export interface TaskItem {

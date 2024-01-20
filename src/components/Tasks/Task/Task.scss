@@ -1,0 +1,45 @@
+@import "../../../utils/colors";
+
+.Task {
+  width: 100%;
+  min-height: 150px;
+  background: $bg-color;
+  border: 2px solid $border-color;
+  border-radius: 10px;
+
+  display: flex;
+  justify-content: space-between;
+
+  .Task-Info {
+    position: relative;
+    margin: 4px 10px 10px 10px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .Task-Info-Heading {
+      display: grid;
+      .Task-Info-Tags {
+        margin: 5px 0;
+        display: flex;
+        max-height: 100%;
+        overflow-x: auto;
+      }
+    }
+    .Task-Info-Deadline {
+      margin-top: 5px;
+      display: flex;
+      p {
+        margin-right: 10px;
+      }
+    }
+  }
+  .Task-Controls {
+    margin-right: 10px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+  }
+}

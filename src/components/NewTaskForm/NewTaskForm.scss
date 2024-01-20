@@ -1,37 +1,77 @@
-@import '../../utils/colors.scss';
+@import '../../utils/colors';
 
-// todo: finish styling (inputs, textarea, button)
+// todo: finish styling
 
 .NewTaskForm {
   width: 600px;
-  max-width: 660px;
-  display: grid;
-  grid-template-columns: repeat(2, auto);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
-  background: $bg-color;
-  border-radius: 10px;
-  border: none;
+  .InputGrid {
+    width: 100%;
+    height: 180px;
+    display: grid;
+    grid-template-columns: 200px 360px;
+    grid-template-rows: 50px 50px 50px;
+    grid-row-gap: 10px;
+    grid-column-gap: 12px;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
 
-  button {
-    background: $bg-button-color;
-    border: 1px solid $borders-color;
-    border-radius: 5px;
+    background: $bg-color;
+    border-radius: 10px;
+    border: 2px solid $border-color;
+
+    input, textarea {
+      line-height: 18px;
+      background: transparent;
+      border: none;
+      resize: none;
+      border-bottom: 1px solid #3F3A40;
+    }
+
+    .Input-Name {
+      height: 40px;
+    }
+
+    .Input-Description {
+      height: 40px;
+    }
+
+    .Input-Description::placeholder {
+      // todo: mb find another way to center vertically
+      transform: translateY(10px);
+    }
+
+    .Input-Tag {
+      height: 40px;
+    }
+
+    .Tags {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+      max-height: 100%;
+      overflow-y: auto;
+    }
+
+    p {
+      color: $primary-color;
+    }
+    .Input-Deadline {
+      max-width: 180px;
+    }
   }
 
-  input, textarea {
-    position: relative;
-    background: transparent;
-    border: none;
-    resize: none;
-    &::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 1px;
-      width: 200px;
-      background: #000; // Change the color as needed
-    }
+  button {
+    margin-top: 5px;
+    width: 600px;
+    height: 50px;
+    background: $bg-button-success;
+    border: 1px solid $border-color;
+    border-radius: 5px;
+    font-size: 24px;
+    font-weight: 500;
   }
 }
