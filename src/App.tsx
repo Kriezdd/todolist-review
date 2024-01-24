@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import NewTaskForm from "./components/NewTaskForm/NewTaskForm";
+import TaskForm from "./components/TaskForm/TaskForm";
 import TaskList from "./components/Tasks/TaskList/TaskList";
 import './App.scss';
 
@@ -9,7 +9,7 @@ export interface TaskItem {
     description?: string;
     deadline: Date;
     tags: string[];
-    status: 'inProgress' | 'done';
+    status: string;
 }
 
 const App = () => {
@@ -18,12 +18,14 @@ const App = () => {
         return savedTasks ? JSON.parse(savedTasks) : [];
     });
 
+
+
     console.log(tasks);
 
     return (
         <div className="App">
-            <NewTaskForm setTasks={setTasks}/>
-            <TaskList tasks={tasks}/>
+            <TaskForm setTasks={setTasks}/>
+            <TaskList tasks={tasks} setTasks={setTasks} />
         </div>
     );
 };

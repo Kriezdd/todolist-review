@@ -20,6 +20,11 @@
 
     .Task-Info-Heading {
       display: grid;
+
+      h1 {
+        text-shadow: 1px 1px 1px $primary-color;
+      }
+
       .Task-Info-Tags {
         margin: 5px 0;
         display: flex;
@@ -27,19 +32,88 @@
         overflow-x: auto;
       }
     }
+
     .Task-Info-Deadline {
       margin-top: 5px;
       display: flex;
+
       p {
-        margin-right: 10px;
+        font-size: 14px;
+        font-weight: 600;
       }
     }
   }
+
   .Task-Controls {
     margin-right: 10px;
-
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
+
+    .StatusButton {
+      &:hover {
+        background: $success;
+      }
+    }
+
+    .EditButton {
+      &:hover {
+        background: $edit;
+      }
+    }
+
+    .DeleteButton {
+      &:hover {
+        background: $fail;
+      }
+    }
+  }
+}
+
+// status styles
+.crunch {
+  .Task-Info-Heading {
+    h1 {
+      color: $edit;
+    }
+  }
+  .Task-Info-Deadline {
+    p, span {
+      color: $edit;
+    }
+  }
+}
+
+.failed {
+  .Task-Info-Heading {
+    h1 {
+      color: $fail;
+    }
+  }
+  .Task-Info-Deadline {
+    p, span {
+      color: $fail;
+    }
+  }
+}
+
+// progress styles
+.success {
+  background: $success;
+
+  .Task-Info {
+    text-decoration: line-through;
+
+    .Task-Info-Heading {
+      h1 {
+        color: $primary-color;
+      }
+    }
+
+    .Task-Info-Deadline {
+      p {
+        color: $primary-color;
+      }
+    }
   }
 }
