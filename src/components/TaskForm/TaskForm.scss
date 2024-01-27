@@ -48,19 +48,14 @@
     .Input-Tag {
       height: 40px;
     }
-
+    .Input-Deadline {
+      max-width: 180px;
+    }
     .Tags {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
       max-height: 100%;
       overflow-y: auto;
-    }
-
-    p {
-      color: $primary-color;
-    }
-    .Input-Deadline {
-      max-width: 180px;
     }
   }
 

@@ -9,4 +9,23 @@
     color: $bg-color;
     margin: 40px 0;
   }
+  .Task-Sort {
+    width: 100%;
+    align-self: flex-start;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    .SortContainer {
+      display: flex;
+    }
+    .SubTitle {
+      color: $bg-color;
+    }
+    .SortBy {
+      max-height: 22px;
+      min-width: 100px;
+      margin-left: 5px;
+      border-radius: 10px;
+    }
+  }
 }

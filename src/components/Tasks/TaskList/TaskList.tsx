@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import Task from "../Task/Task";
 import {TaskItem} from "../../../App";
 import './TaskList.scss';
@@ -10,13 +10,14 @@ interface TaskListProps {
 
 const TaskList = ({tasks, setTasks}: TaskListProps) => {
     const [loadedTasks, setLoadedTasks] = useState<TaskItem[]>(() => {
-        const savedTasks = JSON.parse(localStorage.getItem('tasks') ?? '[]');
-        return savedTasks;
+        return JSON.parse(localStorage.getItem('tasks') ?? '[]');
     });
+    const [selectedOrder, setSelectedOrder] = useState('');
+    const [selectedTag, setSelectedTag] = useState('');
 
     const handleDelete = (id: string) => {
         const newTasks = tasks.filter(task => task.id !== id);
-        setTasks((prevTasks) => {
+        setTasks(() => {
             localStorage.setItem('tasks', JSON.stringify(newTasks));
             return newTasks;
         });
@@ -28,15 +29,37 @@ const TaskList = ({tasks, setTasks}: TaskListProps) => {
                 if (task.id !== taskId) {
                     return task;
                 }
-
                 const newStatus = task.status === 'inProgress' ? 'done' : 'inProgress';
                 return {...task, status: newStatus as "inProgress" | "done"} as TaskItem;
             });
-
             localStorage.setItem('tasks', JSON.stringify(updatedTasks));
             return updatedTasks;
         });
     };
+
+    // sort and filter
+    const allTags = Array.from(new Set(tasks.flatMap(task => task.tags || [])));
+    let filteredTasks = tasks;
+    const handleOrderSelect = (event: ChangeEvent<HTMLSelectElement>) => {
+        setSelectedOrder(event.target.value);
+    }
+    switch (selectedOrder) {
+        case '':
+            tasks.sort((a, b) => Number(a.id) - Number(b.id));
+            break;
+        case 'ascending':
+            tasks.sort((a, b) => new Date(a.deadline).getTime() - new Date(b.deadline).getTime());
+            break;
+        case 'descending':
+            tasks.sort((a, b) => new Date(b.deadline).getTime() - new Date(a.deadline).getTime());
+            break;
+    }
+    const handleTagSelect = (event: ChangeEvent<HTMLSelectElement>) => {
+        setSelectedTag(event.target.value);
+    }
+    if (selectedTag !== '') {
+        filteredTasks = tasks.filter(task => task.tags.includes(selectedTag));
+    }
 
     // sync localStorage with tasks to re-render when changing;
     useEffect(() => {
@@ -49,7 +72,28 @@ const TaskList = ({tasks, setTasks}: TaskListProps) => {
     return (
         <div className="TaskList">
             {tasks.length ? <h1 className="Title">do it:</h1> : null}
-            {tasks.map(task => (
+            <div className="Task-Sort">
+                <div className="SortContainer">
+                    <h3 className="SubTitle">sort by deadline:</h3>
+                    <select onChange={handleOrderSelect} className="SortBy Deadline">
+                        <option value='' selected>DISABLED</option>
+                        <option value={'ascending'}>ascending</option>
+                        <option value={'descending'}>descending</option>
+                    </select>
+                </div>
+                <div className="SortContainer">
+                    <h3 className="SubTitle">filter by tag:</h3>
+                    <select onChange={handleTagSelect} className="SortBy Tags">
+                        <option value='' selected>DISABLED</option>
+                        {allTags.map(tag => (
+                            <option key={tag} value={tag}>
+                                {tag}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+            </div>
+            {filteredTasks.map(task => (
                 <Task
                     key={task.id}
                     task={task}

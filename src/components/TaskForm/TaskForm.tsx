@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {TaskItem} from "../../App";
 import './TaskForm.scss';
+import Tag from "../../utils/Tag/Tag";
 
 interface FormProps {
     setTasks: React.Dispatch<React.SetStateAction<TaskItem[]>>;
@@ -17,7 +18,7 @@ const TaskForm = ({setTasks, initData, isEditing, onClose}: FormProps) => {
         initData?.description || ''
     );
     const [deadline, setDeadline] = useState(
-        initData?.deadline.toString().slice(0, -8) || ''
+        initData?.deadline instanceof Date ? initData.deadline.toISOString().slice(0, -8) : ''
     );
     const [tags, setTags] = useState(
         new Set(initData?.tags) || new Set<string>()
@@ -80,6 +81,14 @@ const TaskForm = ({setTasks, initData, isEditing, onClose}: FormProps) => {
         }
     }
 
+    const onDelete = (value : string) => {
+        setTags(prevTags => {
+            const newTags = new Set(prevTags);
+            newTags.delete(value);
+            return newTags;
+        });
+    }
+
     return (
         <form className="NewTaskForm" onSubmit={handleSubmit}>
             <div className="InputGrid">
@@ -106,8 +115,8 @@ const TaskForm = ({setTasks, initData, isEditing, onClose}: FormProps) => {
                     placeholder="add tags (ENTER)"
                 />
                 <div className="Tags">
-                    {Array.from(tags).map(tag =>
-                        <div>{tag}</div>
+                    {Array.from(tags).map((tag, id) =>
+                        <Tag tag={tag} id={id} onDelete={onDelete} />
                     )}
                 </div>
                 <p>deadline:</p>
