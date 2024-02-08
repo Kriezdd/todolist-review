@@ -21,7 +21,7 @@
     .Task-Info-Heading {
       display: grid;
 
-      h1 {
+      .Heading-Name {
         text-shadow: 1px 1px 1px $primary-color;
       }
 
@@ -37,7 +37,7 @@
       margin-top: 5px;
       display: flex;
 
-      p {
+      .Deadline-Date {
         font-size: 14px;
         font-weight: 600;
       }
@@ -73,12 +73,12 @@
 // status styles
 .crunch {
   .Task-Info-Heading {
-    h1 {
+    .Heading-Name {
       color: $edit;
     }
   }
   .Task-Info-Deadline {
-    p, span {
+    .Deadline-Date, .Deadline-Status {
       color: $edit;
     }
   }
@@ -86,12 +86,12 @@
 
 .failed {
   .Task-Info-Heading {
-    h1 {
+    .Heading-Name {
       color: $fail;
     }
   }
   .Task-Info-Deadline {
-    p, span {
+    .Deadline-Date, .Deadline-Status {
       color: $fail;
     }
   }
@@ -105,13 +105,13 @@
     text-decoration: line-through;
 
     .Task-Info-Heading {
-      h1 {
+      .Heading-Name {
         color: $primary-color;
       }
     }
 
     .Task-Info-Deadline {
-      p {
+      .Deadline-Date {
         color: $primary-color;
       }
     }

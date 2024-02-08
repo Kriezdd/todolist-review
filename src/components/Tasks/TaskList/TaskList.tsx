@@ -1,12 +1,8 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
+import {TaskItem} from "../../../types/TaskItem";
+import {TaskListProps} from "../../../types/TaskListProps";
 import Task from "../Task/Task";
-import {TaskItem} from "../../../App";
 import './TaskList.scss';
-
-interface TaskListProps {
-    tasks: TaskItem[];
-    setTasks: React.Dispatch<React.SetStateAction<TaskItem[]>>;
-}
 
 const TaskList = ({tasks, setTasks}: TaskListProps) => {
     const [loadedTasks, setLoadedTasks] = useState<TaskItem[]>(() => {
@@ -29,8 +25,8 @@ const TaskList = ({tasks, setTasks}: TaskListProps) => {
                 if (task.id !== taskId) {
                     return task;
                 }
-                const newStatus = task.status === 'inProgress' ? 'done' : 'inProgress';
-                return {...task, status: newStatus as "inProgress" | "done"} as TaskItem;
+                const newStatus : 'inProgress' | 'done' = task.status === 'inProgress' ? 'done' : 'inProgress';
+                return {...task, status: newStatus} as TaskItem;
             });
             localStorage.setItem('tasks', JSON.stringify(updatedTasks));
             return updatedTasks;
@@ -72,7 +68,7 @@ const TaskList = ({tasks, setTasks}: TaskListProps) => {
     return (
         <div className="TaskList">
             {tasks.length ? <h1 className="Title">do it:</h1> : null}
-            <div className="Task-Sort">
+            {tasks.length ? <div className="Task-Sort">
                 <div className="SortContainer">
                     <h3 className="SubTitle">sort by deadline:</h3>
                     <select onChange={handleOrderSelect} className="SortBy Deadline">
@@ -92,7 +88,7 @@ const TaskList = ({tasks, setTasks}: TaskListProps) => {
                         ))}
                     </select>
                 </div>
-            </div>
+            </div> : null}
             {filteredTasks.map(task => (
                 <Task
                     key={task.id}

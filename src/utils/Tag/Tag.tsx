@@ -1,11 +1,6 @@
 import React from 'react';
+import {TagProps} from "../../types/TagProps";
 import './Tag.scss';
-
-interface TagProps {
-    tag: string;
-    id: number;
-    onDelete?: (value:string) => void;
-}
 
 const Tag = ({tag, id, onDelete}: TagProps) => {
     const handleDelete = () => {

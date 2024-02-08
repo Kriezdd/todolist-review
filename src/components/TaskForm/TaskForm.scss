@@ -1,7 +1,5 @@
 @import '../../utils/colors';
 
-// todo: finish styling
-
 .NewTaskForm {
   width: 600px;
   display: flex;
@@ -24,7 +22,7 @@
     border-radius: 10px;
     border: 2px solid $border-color;
 
-    input, textarea {
+    .text-input {
       line-height: 18px;
       background: transparent;
       border: none;
@@ -41,13 +39,25 @@
     }
 
     .Input-Description::placeholder {
-      // todo: mb find another way to center vertically
       transform: translateY(10px);
     }
 
-    .Input-Tag {
-      height: 40px;
+    .TagForm {
+      display: flex;
+      align-items: center;
+      .Input-Tag {
+        width: 60%;
+        height: 30px;
+      }
+      .tagButton {
+        margin: 0;
+        width: 40%;
+        height: 25px;
+        font-size: 14px;
+      }
     }
+
+
     .Input-Deadline {
       max-width: 180px;
     }
@@ -59,7 +69,7 @@
     }
   }
 
-  button {
+  .SubmitButton {
     margin-top: 5px;
     width: 600px;
     height: 50px;

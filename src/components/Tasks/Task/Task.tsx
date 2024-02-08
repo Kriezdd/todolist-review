@@ -1,16 +1,9 @@
 import React, {useState} from 'react';
-import {TaskItem} from "../../../App";
-import './Task.scss';
+import {TaskProps} from "../../../types/TaskProps";
 import Tag from "../../../utils/Tag/Tag";
 import TaskForm from "../../TaskForm/TaskForm";
 import Modal from "../../../utils/Modal/Modal";
-
-interface TaskProps {
-    task: TaskItem;
-    onDelete: (id: string) => void;
-    onChangeStatus: (id: string) => void;
-    setTasks: React.Dispatch<React.SetStateAction<TaskItem[]>>;
-}
+import './Task.scss';
 
 const Task = ({task, onDelete, onChangeStatus, setTasks}: TaskProps) => {
     // track editing
@@ -33,7 +26,7 @@ const Task = ({task, onDelete, onChangeStatus, setTasks}: TaskProps) => {
     const progressClassName = task.status === 'inProgress' ? 'inProgress': 'success';
 
     // changes styling based on status (ok/crunch/failed)
-    const CRUNCH_THRESHOLD = 3 * 60 * 60 * 1000; // 3 hours in ms
+    const CRUNCH_THRESHOLD = 6 * 60 * 60 * 1000; // 6 hours in ms
     const timeLeft = deadline.getTime() - new Date().getTime();
 
     let statusClassName;
@@ -59,7 +52,7 @@ const Task = ({task, onDelete, onChangeStatus, setTasks}: TaskProps) => {
             )}
             <div className="Task-Info">
                 <div className="Task-Info-Heading">
-                    <h1>{task.name}</h1>
+                    <h1 className="Heading-Name">{task.name}</h1>
                     <div className="Task-Info-Tags">
                         {task.tags.map((tag, id) =>
                             <Tag tag={tag} id={id}/>
@@ -68,9 +61,10 @@ const Task = ({task, onDelete, onChangeStatus, setTasks}: TaskProps) => {
                 </div>
                 <p>{task.description}</p>
                 <div className="Task-Info-Deadline">
-                    {/* todo: make timer (days>hours>minutes) remaining*/}
-                    {/* todo: change task-styling if remains less than 2h)*/}
-                    <p>deadline: {dateStr}, {timeStr} | status: <span>{statusClassName}</span></p>
+                    <p className="Deadline-Date">
+                        deadline: {dateStr}, {timeStr} |
+                        status: <span className="Deadline-Status">{statusClassName}</span>
+                    </p>
                 </div>
 
             </div>

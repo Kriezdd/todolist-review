@@ -1,14 +1,8 @@
 import React, {useState} from 'react';
-import {TaskItem} from "../../App";
-import './TaskForm.scss';
+import {TaskItem} from "../../types/TaskItem";
+import {FormProps} from "../../types/FormProps";
 import Tag from "../../utils/Tag/Tag";
-
-interface FormProps {
-    setTasks: React.Dispatch<React.SetStateAction<TaskItem[]>>;
-    initData?: TaskItem;
-    isEditing?: boolean;
-    onClose?: () => void;
-}
+import './TaskForm.scss';
 
 const TaskForm = ({setTasks, initData, isEditing, onClose}: FormProps) => {
     const [name, setName] = useState(
@@ -18,7 +12,7 @@ const TaskForm = ({setTasks, initData, isEditing, onClose}: FormProps) => {
         initData?.description || ''
     );
     const [deadline, setDeadline] = useState(
-        initData?.deadline instanceof Date ? initData.deadline.toISOString().slice(0, -8) : ''
+        initData?.deadline || ''
     );
     const [tags, setTags] = useState(
         new Set(initData?.tags) || new Set<string>()
@@ -29,25 +23,22 @@ const TaskForm = ({setTasks, initData, isEditing, onClose}: FormProps) => {
         event.preventDefault();
 
         if (isEditing && initData && onClose) {
-            const updatedTask = {
+            const updatedTask: TaskItem = {
                 id: initData.id,
                 name,
                 description,
-                deadline: new Date(deadline),
+                deadline,
                 tags: Array.from(tags),
                 status: 'inProgress',
             }
-            setTasks((prevTasks) => {
-                const updatedTasks = prevTasks.map((currTask) => {
+            setTasks((prevTasks: TaskItem[]) => {
+                const updatedTasks: TaskItem[] = prevTasks.map((currTask) => {
                     if (updatedTask.id === currTask.id) {
-                        console.log('gotcha')
                         return updatedTask;
                     } else {
                         return currTask;
                     }
                 });
-                console.log(updatedTask);
-                console.log(updatedTasks);
                 localStorage.setItem('tasks', JSON.stringify(updatedTasks));
                 return updatedTasks;
             });
@@ -57,7 +48,7 @@ const TaskForm = ({setTasks, initData, isEditing, onClose}: FormProps) => {
                 id: Date.now().toString(),
                 name,
                 description,
-                deadline: new Date(deadline),
+                deadline,
                 tags: Array.from(tags),
                 status: 'inProgress',
             }
@@ -80,8 +71,15 @@ const TaskForm = ({setTasks, initData, isEditing, onClose}: FormProps) => {
             setNewTag('');
         }
     }
+    //
+    const handleAddTag = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+        setTags(tags.add(newTag));
+        setNewTag('');
+    }
+    //
 
-    const onDelete = (value : string) => {
+    const onDelete = (value: string) => {
         setTags(prevTags => {
             const newTags = new Set(prevTags);
             newTags.delete(value);
@@ -93,7 +91,7 @@ const TaskForm = ({setTasks, initData, isEditing, onClose}: FormProps) => {
         <form className="NewTaskForm" onSubmit={handleSubmit}>
             <div className="InputGrid">
                 <input
-                    className="Input-Name"
+                    className="Input-Name text-input"
                     type="text"
                     value={name}
                     onChange={e => setName(e.target.value)}
@@ -101,34 +99,37 @@ const TaskForm = ({setTasks, initData, isEditing, onClose}: FormProps) => {
                     required
                 />
                 <textarea
-                    className="Input-Description"
+                    className="Input-Description text-input"
                     value={description}
                     onChange={e => setDescription(e.target.value)}
                     placeholder="description..."
                 />
-                <input
-                    className="Input-Tag"
-                    type="text"
-                    value={newTag}
-                    onChange={(e) => setNewTag(e.target.value)}
-                    onKeyDown={handleTagInputKeyDown}
-                    placeholder="add tags (ENTER)"
-                />
+                <div className="TagForm">
+                    <input
+                        className="Input-Tag text-input"
+                        type="text"
+                        value={newTag}
+                        onChange={(e) => setNewTag(e.target.value)}
+                        onKeyDown={handleTagInputKeyDown}
+                        placeholder="type tag"
+                    />
+                    <button onClick={handleAddTag} className="SubmitButton tagButton">add tag</button>
+                </div>
                 <div className="Tags">
                     {Array.from(tags).map((tag, id) =>
-                        <Tag tag={tag} id={id} onDelete={onDelete} />
+                        <Tag tag={tag} id={id} onDelete={onDelete}/>
                     )}
                 </div>
                 <p>deadline:</p>
                 <input
-                    className="Input-Deadline"
+                    className="Input-Deadline text-input"
                     type="datetime-local"
                     value={deadline}
-                    onChange={e => setDeadline(e.target.value)}
+                    onChange={e => {setDeadline(e.target.value)}}
                     required
                 />
             </div>
-            <button type="submit">{isEditing?'save':'add'}</button>
+            <button type="submit" className="SubmitButton">{isEditing ? 'save' : 'add'}</button>
         </form>
     );
 };
