@@ -1,0 +1,85 @@
+@import '../../utils/colors';
+
+.NewTaskForm {
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  .InputGrid {
+    width: 100%;
+    height: 180px;
+    display: grid;
+    grid-template-columns: 200px 360px;
+    grid-template-rows: 50px 50px 50px;
+    grid-row-gap: 10px;
+    grid-column-gap: 12px;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+
+    background: $bg-color;
+    border-radius: 10px;
+    border: 2px solid $border-color;
+
+    .text-input {
+      line-height: 18px;
+      background: transparent;
+      border: none;
+      resize: none;
+      border-bottom: 1px solid #3F3A40;
+    }
+
+    .Input-Name {
+      height: 40px;
+    }
+
+    .Input-Description {
+      height: 40px;
+    }
+
+    .Input-Description::placeholder {
+      transform: translateY(10px);
+    }
+
+    .TagForm {
+      display: flex;
+      align-items: center;
+      .Input-Tag {
+        width: 60%;
+        height: 30px;
+      }
+      .tagButton {
+        margin: 0;
+        width: 40%;
+        height: 25px;
+        font-size: 14px;
+      }
+    }
+
+
+    .Input-Deadline {
+      max-width: 180px;
+    }
+    .Tags {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+      max-height: 100%;
+      overflow-y: auto;
+    }
+  }
+
+  .SubmitButton {
+    margin-top: 5px;
+    width: 600px;
+    height: 50px;
+    background: $bg-button-common;
+    border: 1px solid $border-color;
+    border-radius: 5px;
+    font-size: 24px;
+    font-weight: 500;
+    &:hover {
+      background: $success;
+    }
+  }
+}
