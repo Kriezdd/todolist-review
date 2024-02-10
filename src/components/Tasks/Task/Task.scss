@@ -1,0 +1,119 @@
+@import "../../../utils/colors";
+
+.Task {
+  width: 100%;
+  min-height: 150px;
+  background: $bg-color;
+  border: 2px solid $border-color;
+  border-radius: 10px;
+
+  display: flex;
+  justify-content: space-between;
+
+  .Task-Info {
+    position: relative;
+    margin: 4px 10px 10px 10px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .Task-Info-Heading {
+      display: grid;
+
+      .Heading-Name {
+        text-shadow: 1px 1px 1px $primary-color;
+      }
+
+      .Task-Info-Tags {
+        margin: 5px 0;
+        display: flex;
+        max-height: 100%;
+        overflow-x: auto;
+      }
+    }
+
+    .Task-Info-Deadline {
+      margin-top: 5px;
+      display: flex;
+
+      .Deadline-Date {
+        font-size: 14px;
+        font-weight: 600;
+      }
+    }
+  }
+
+  .Task-Controls {
+    margin-right: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    .StatusButton {
+      &:hover {
+        background: $success;
+      }
+    }
+
+    .EditButton {
+      &:hover {
+        background: $edit;
+      }
+    }
+
+    .DeleteButton {
+      &:hover {
+        background: $fail;
+      }
+    }
+  }
+}
+
+// status styles
+.crunch {
+  .Task-Info-Heading {
+    .Heading-Name {
+      color: $edit;
+    }
+  }
+  .Task-Info-Deadline {
+    .Deadline-Date, .Deadline-Status {
+      color: $edit;
+    }
+  }
+}
+
+.failed {
+  .Task-Info-Heading {
+    .Heading-Name {
+      color: $fail;
+    }
+  }
+  .Task-Info-Deadline {
+    .Deadline-Date, .Deadline-Status {
+      color: $fail;
+    }
+  }
+}
+
+// progress styles
+.success {
+  background: $success;
+
+  .Task-Info {
+    text-decoration: line-through;
+
+    .Task-Info-Heading {
+      .Heading-Name {
+        color: $primary-color;
+      }
+    }
+
+    .Task-Info-Deadline {
+      .Deadline-Date {
+        color: $primary-color;
+      }
+    }
+  }
+}
